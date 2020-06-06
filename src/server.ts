@@ -11,6 +11,7 @@ const {
 
 import { getDatabase } from './database';
 import userRoutes from './routes/user';
+import authenticateRoutes from './routes/authenticate';
 // import { User } from './database/models';
 import { get404 } from './controller/error';
 
@@ -21,6 +22,7 @@ app.use(bodyParser({ extended: false }));
 getDatabase()
   .then(async _db => {
     app.use('/users', userRoutes);
+    app.use('/authenticate', authenticateRoutes);
 
     app.get('/', (req, res) => {
       res.send(`Hello World on port ${expressPort}`);

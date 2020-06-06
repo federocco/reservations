@@ -16,7 +16,6 @@ export const postAddUser = async (
 
     res.status(newUser ? 200 : 404).json(newUser ? { result: newUser } : null);
   } catch (e) {
-    console.log('Query execution error >>>:', e);
     res.status(500).send({ errorMessage: e.message, errors: e.errors });
   }
 };
