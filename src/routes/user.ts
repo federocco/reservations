@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/users', (req, res) => {
-  console.log(req.body);
+  console.log('users req.body: ', req.body);
   res.send('List of users');
 });
 

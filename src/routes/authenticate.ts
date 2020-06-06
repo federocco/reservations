@@ -1,7 +1,5 @@
-// 895873474260827
-
 import * as express from 'express';
-// import { postAddUser } from '../controller/authenticate';
+import { loginWithFacebook } from '../controller/authenticate';
 
 const router = express.Router();
 
@@ -9,13 +7,10 @@ const router = express.Router();
 //   res.send('Users segment');
 // });
 
-router.get('/facebook', (req, res) => {
-  console.log(req.body);
-  res.send('Autenticate from Facebook');
-});
+router.get('/facebook', loginWithFacebook);
 
 router.get('/facebookLogin', (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   res.send('Autenticate from Facebook');
 });
 
