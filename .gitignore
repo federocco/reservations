@@ -15,7 +15,7 @@ dist/
 # VS Code
 .vscode
 !.vscode/tasks.js
-.code-workspace
+*.code-workspace
 
 # Optional npm cache directory
 .npm
