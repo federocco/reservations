@@ -9,7 +9,7 @@
     "migrate": "npm run build && node_modules/.bin/sequelize db:migrate --env development",
     "migrate:undo": "npm run build && node_modules/.bin/sequelize db:migrate:undo --env development",
     "migrate:undo:all": "npm run build && node_modules/.bin/sequelize db:migrate:undo:all --env development",
-    "dev": "nodemon",
+    "start": "nodemon",
     "postinstall": "node-config-ts"
   },
   "keywords": [
