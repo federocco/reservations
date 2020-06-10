@@ -16,8 +16,14 @@ export async function up(query: QueryInterface) {
       displayName: {
         type: new DataTypes.STRING(),
         allowNull: false,
+        unique: false,
+        comment: 'Display name of the user',
+      },
+      email: {
+        type: new DataTypes.STRING(),
+        allowNull: false,
         unique: true,
-        comment: 'Unique display name of the user',
+        comment: 'Unique email of the user',
       },
       firstName: {
         type: new DataTypes.STRING(255),
@@ -33,6 +39,16 @@ export async function up(query: QueryInterface) {
         type: new DataTypes.STRING(10),
         allowNull: true,
         comment: 'Language of the user',
+      },
+      facebookId: {
+        type: new DataTypes.STRING(255),
+        allowNull: true,
+        comment: 'Facebook ID',
+      },
+      facebookAccessToken: {
+        type: new DataTypes.STRING(255),
+        allowNull: true,
+        comment: 'Facebook Access Token',
       },
       createdAt: {
         type: DataTypes.DATE,

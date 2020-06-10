@@ -1,5 +1,6 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
+import * as passport from 'passport';
 
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -10,19 +11,20 @@ const {
 } = config;
 
 import { getDatabase } from './database';
-import userRoutes from './routes/user';
+// import userRoutes from './routes/user';
 import authenticateRoutes from './routes/authenticate';
 // import { User } from './database/models';
 import { get404 } from './controller/error';
 
 const app = express();
 app.use(bodyParser({ extended: false }));
+app.use(passport.initialize());
 
 // here is how you can get your database reference
 getDatabase()
   .then(async _db => {
-    app.use('/users', userRoutes);
-    app.use('/authenticate', authenticateRoutes);
+    // app.use('/users', userRoutes);
+    app.use('/auth', authenticateRoutes);
 
     app.get('/', (req, res) => {
       res.send(`Hello World on port ${expressPort}`);

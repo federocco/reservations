@@ -5,9 +5,12 @@ import { BaseModel } from './base';
 export interface IUser {
   id?: string;
   displayName: string;
+  email: string;
   firstName?: string;
   lastName?: string;
   language?: string;
+  facebookId?: string;
+  facebookAccessToken?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -15,14 +18,15 @@ export interface IUser {
 export class User extends BaseModel implements IUser {
   public static readonly ModelName: string = 'User';
   public static readonly ModelNamePlural: string = 'Users';
-  public static readonly TableName: string = 'Users';
+  public static readonly TableName: string = 'users';
   public static readonly DefaultScope: FindOptions = {};
 
   public id!: string;
   public displayName!: string;
   public firstName: string;
-  public language: string;
   public lastName: string;
+  public language: string;
+  public email: string;
   public createdAt: Date;
   public updatedAt: Date;
 
@@ -39,7 +43,10 @@ export class User extends BaseModel implements IUser {
         displayName: new DataTypes.STRING(),
         firstName: new DataTypes.STRING(255),
         lastName: new DataTypes.STRING(255),
+        email: new DataTypes.STRING(255),
         language: new DataTypes.STRING(10),
+        facebookId: new DataTypes.STRING(255),
+        facebookAccessToken: new DataTypes.STRING(255),
       },
       {
         sequelize: sequelize,
@@ -59,10 +66,4 @@ export class User extends BaseModel implements IUser {
   }) {
     // place to set model associations
   }
-
-  // endregion
-
-  // region Instance Model methods
-
-  // endregion
 }
