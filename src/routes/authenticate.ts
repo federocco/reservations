@@ -1,9 +1,7 @@
 import * as express from 'express';
 import * as passport from 'passport';
-import { Strategy as FacebookStrategy } from 'passport-facebook';
 
-import { IUser } from '../database/models';
-import { upsertUserAccessToken } from '../controller/user';
+import { FacebookStrategy } from '../controller/facebookAuth';
 
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -12,57 +10,38 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
-passport.use(
-  new FacebookStrategy(
-    {
-      clientID: process.env.FACEBOOK_APP_ID,
-      clientSecret: process.env.FACEBOOK_APP_SECRET,
-      callbackURL: process.env.FACEBOOK_CALLBACK_URL,
-      profileFields: ['id', 'email', 'first_name', 'last_name'],
-    },
-    async function(accessToken, refreshToken, profile, done) {
-      try {
-        const { email, first_name, last_name } = profile._json;
-
-        console.log(profile);
-
-        const displayName: string = `${first_name}${last_name}`;
-        const upsertUser: IUser = {
-          displayName,
-          email,
-          firstName: first_name ?? '',
-          lastName: last_name ?? '',
-          facebookAccessToken: accessToken,
-        };
-
-        await upsertUserAccessToken(upsertUser);
-
-        done(null, profile);
-      } catch (e) {
-        console.log(e);
-      }
-    },
-  ),
-);
+passport.use(FacebookStrategy);
 
 const router = express.Router();
 
-router.get('/facebook', passport.authenticate('facebook'));
+router.get(
+  '/facebook',
+  passport.authenticate('facebook', {
+    scope: [
+      'business_management',
+      'user_friends',
+      'user_location',
+      'business_management',
+    ],
+  }),
+);
 
 router.get(
   '/facebook/callback',
   passport.authenticate('facebook', {
-    successRedirect: '/',
-    failureRedirect: '/fail',
+    successRedirect: '/auth/facebook/success',
+    failureRedirect: '/auth/facebook/fail',
   }),
 );
 
-router.get('/fail', (req, res) => {
-  res.send('Failed attempt');
+router.get('/facebook/fail', (req, res) => {
+  res.send('Failed attempt to login with Facebook');
 });
 
-router.get('/', (req, res) => {
-  res.send('Success');
+router.get('/facebook/success', (req, res) => {
+  res
+    .status(200)
+    .json({ result: null, message: 'Login with Facebook success!' });
 });
 
 export default router;

@@ -23,10 +23,12 @@ export class User extends BaseModel implements IUser {
 
   public id!: string;
   public displayName!: string;
+  public email!: string;
   public firstName: string;
   public lastName: string;
   public language: string;
-  public email: string;
+  public facebookId: string;
+  public facebookAccessToken: string;
   public createdAt: Date;
   public updatedAt: Date;
 
@@ -45,7 +47,11 @@ export class User extends BaseModel implements IUser {
         lastName: new DataTypes.STRING(255),
         email: new DataTypes.STRING(255),
         language: new DataTypes.STRING(10),
-        facebookId: new DataTypes.STRING(255),
+        facebookId: {
+          type: new DataTypes.STRING(255),
+          unique: true,
+          comment: 'Facebook user Id',
+        },
         facebookAccessToken: new DataTypes.STRING(255),
       },
       {
