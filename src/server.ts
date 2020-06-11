@@ -10,21 +10,27 @@ const {
   server: { port: expressPort },
 } = config;
 
+// Database models
 import { getDatabase } from './database';
-// import userRoutes from './routes/user';
-import authenticateRoutes from './routes/authenticate';
 // import { User } from './database/models';
+
+// Routes
+import authFacebook from './routes/authFacebook';
+
+// Rontrollers
 import { get404 } from './controller/error';
+// import userRoutes from './routes/user';
 
 const app = express();
 app.use(bodyParser({ extended: false }));
+
 app.use(passport.initialize());
 
 // here is how you can get your database reference
 getDatabase()
   .then(async _db => {
     // app.use('/users', userRoutes);
-    app.use('/auth', authenticateRoutes);
+    app.use('/auth/facebook', authFacebook);
 
     app.get('/', (req, res) => {
       res.send(`Hello World on port ${expressPort}`);

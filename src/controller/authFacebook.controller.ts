@@ -1,5 +1,5 @@
 import { IUser } from '../database/models';
-import { upsertUserAccessToken } from '../controller/user';
+import { upsertUserAccessToken } from './user.controller';
 import { Strategy } from 'passport-facebook';
 
 export const FacebookStrategy = new Strategy(
